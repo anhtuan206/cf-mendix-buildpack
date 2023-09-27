@@ -467,7 +467,8 @@ def is_cluster_leader():
 
 
 def is_free_app():
-    return os.getenv("PROFILE") == "free"
+    # return os.getenv("PROFILE") == "free"
+    return False
 
 
 def get_nginx_port():

@@ -1,0 +1,97 @@
+---
+dependencies:
+  appdynamics:
+    agent:
+      artifact: appdynamics/appdynamics-agent-1.8-{{ version }}.zip
+    machine-agent:
+      artifact: appdynamics/appdynamics-machineagent-bundle-{{ version }}.zip
+    version: 22.1.0
+  databroker:
+    debezium:
+      artifact: experimental/databroker/debezium-{{ version }}.tar.gz
+      version: 1.2.0
+    kafka-connect:
+      artifact: experimental/databroker/kafka-connect-{{ version }}.tar.gz
+      version: 2.13-2.5.1-v2
+    stream-sidecar:
+      artifact: experimental/databroker/stream-sidecar-{{ version }}.tar
+      version: 0.23.0-9
+  datadog:
+    buildpack:
+      alias: cf-datadog-sidecar
+      artifact: datadog/datadog-cloudfoundry-buildpack-{{ version }}.zip
+      version: 4.33.0
+    trace-agent:
+      artifact: datadog/dd-java-agent-{{ version }}.jar
+      version: 0.101.0
+  dynatrace:
+    agent:
+      artifact: "{{ url }}/e/{{ environment }}/api/v1/deployment/installer/agent/unix/paas/latest?include=java&bitness=64&Api-Token={{ token }}"
+      managed: false
+  fluentbit:
+    artifact: fluentbit/fluent-bit-{{ version }}-cflinuxfs4.tar.gz
+    version: 1.9.2
+  java:
+    keyutil:
+      artifact: java-keyutil/keyutil-{{ version }}.jar
+      version: 0.4.0
+    "{{ version_key }}-{{ type }}":
+      alias:
+        - AdoptOpenJDK-{{ type }}
+        - "{{ type }}"
+      artifact: "{{ vendor }}-{{ type }}-{{ version }}-linux-x64.tar.gz"
+      bom_type: framework
+      bom_version: "{{ version if version_key != '8' else '1.8.0.' + version.split('u')[1] }}"
+      cpe: cpe:2.3:a:oracle:jdk:{{ version if version_key != "8" else "1.8.0" }}:{{ "*" if version_key != "8" else "update" + version.split("u")[1] }}:*:*:*:*:*:*
+      purl: pkg:generic/{{ vendor|lower }}-{{ type }}@{{ version if version_key != "8" else "1.8.0." + version.split("u")[1] }}?arch=amd64
+      type:
+        - jre
+        - jdk
+      vendor: Adoptium
+      version:
+        - "8": 8u372
+        - "11": 11.0.18
+  logs:
+    mendix-logfilter:
+      artifact: logs/mendix-logfilter-{{version}}.tar.gz
+      version: 0.0.3
+  mendix:
+    mx-agent:
+      artifact: mx-agent/mx-agent-v{{ version }}.jar
+      version: 0.12.0
+    runtime:
+      "{{ type }}":
+        artifact: "{{ url }}/runtime/{{ type }}-{{ version }}.tar.gz"
+        managed: false
+        type:
+          - mendix
+          - mxbuild
+  metering:
+    sidecar:
+      artifact: experimental/metering/metering-sidecar-linux-amd64-v{{ version }}.tar.gz
+      version: 2.0.0
+  mono:
+    "{{ version_key }}-{{ type }}":
+      artifact: mono/mono-{{ version }}-mx-ubuntu-{{ type }}.tar.gz
+      bom_type: framework
+      cpe: cpe:2.3:a:mono-project:mono:{{ version }}:*:*:*:*:*:*:*
+      type:
+        - jammy
+      version:
+        - "4": 4.6.2.16
+        - "5": 5.20.1.27
+  newrelic:
+    agent:
+      artifact: newrelic/newrelic-java-{{ version }}.zip
+      version: 6.5.4
+  nginx:
+    artifact: nginx_{{ version }}_linux_x64_{{ fs }}_{{ commit }}.tgz
+    commit: 909b06a9
+    fs: cflinuxfs4
+    cpe: cpe:2.3:a:f5:nginx:{{ version }}:*:*:*:*:*:*:*
+    version: 1.22.1
+  telegraf:
+    agent:
+      artifact: telegraf/telegraf-{{ version }}_linux_amd64.tar.gz
+      version: 1.24.4
+# https://github.com/cloudfoundry/public-buildpacks-ci-robots/tree/main/binary-builds-new
